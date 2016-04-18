@@ -5,6 +5,10 @@ import { Strategy as JwtStrategy } from 'passport-jwt';
 import { ExtractJwt as ExtractJwt } from 'passport-jwt';
 import LocalStrategy from 'passport-local';
 
+
+
+/*passport strategy for local login
+ * * it compares password stored in db with requested one*/
 const localLogin = new LocalStrategy({ usernameField: 'email' }, function (email, password, done){
 
     User.findOne({ email }, function(err, user){
@@ -21,11 +25,15 @@ const localLogin = new LocalStrategy({ usernameField: 'email' }, function (email
     })
 });
 
+
+/*passport config for jwt login*/
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromHeader('authorisation'),
     secretOrKey: config.secret
 };
 
+/*passport strategy for jwt login
+* check if request is authorized by jwt*/
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
     User.findById(payload.sub, function(err, user){
         if (err){ return done(err, false); }
@@ -38,5 +46,11 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done){
     });
 });
 
+
+
 passport.use(jwtLogin);
 passport.use(localLogin);
+
+
+
+

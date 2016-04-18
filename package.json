@@ -15,9 +15,8 @@
     "lint": "eslint client server shared"
   },
   "pre-commit": [
-    "lint",
-    "test",
-    "test:server"
+
+
   ],
   "repository": {
     "type": "git",
@@ -30,6 +29,7 @@
   "author": "Prashant Abhishek <prashant.abhishek7g@gmail.com>, Mayank Chandola <imayankchd@gmail.com>, Sandeep Panda <sandeep@hashnode.com>, Syed Fazle Rahman <fazle@hashnode.com>, Alkshendra Maurya <alkshendra@hashnode.com>",
   "license": "MIT",
   "dependencies": {
+    "acl": "^0.4.9",
     "babel-core": "^6.4.5",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.2",

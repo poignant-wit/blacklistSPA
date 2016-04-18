@@ -39,6 +39,9 @@ export function signup(req, res, next) {
                 return next(err)
             }
 
+
+            acl.addUserRoles(user.id, 'admin');
+
             res.json({token: tokenForUser(user)});
         });
 
