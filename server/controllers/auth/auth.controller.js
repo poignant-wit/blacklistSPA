@@ -40,7 +40,7 @@ export function signup(req, res, next) {
             }
 
 
-            acl.addUserRoles(user.id, 'admin');
+            req.app.get('acl').addUserRoles(user.id, 'admin');
 
             res.json({token: tokenForUser(user)});
         });
@@ -52,5 +52,24 @@ export function signup(req, res, next) {
 }
 
 export function signin(req, res, next) {
-    res.json({token: tokenForUser(req.user)});
+
+    req.app.get('acl').hasRole(req.user.id, 'admin', (err, hasRole) => {
+
+        if (err) {
+            return next(err);
+        }
+
+        if (hasRole){
+            res.json({
+                token: tokenForUser(req.user),
+                admin: true
+            });
+        }
+        res.json({
+            token: tokenForUser(req.user),
+
+        });
+
+    });
+
 }

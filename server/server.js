@@ -40,12 +40,28 @@ import users from './routes/user.routes';
 import auth from './routes/auth.routes';
 import dummyData from './dummyData';
 
-import db from './database'
 
 import serverConfig from './config';
 
+mongoose.connect(serverConfig.mongoURL, (error) => {
+    if (error) {
+        console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
+        throw error;
+    }
+    /*
+     setup node acl
+     * */
 
-db();
+    const acl = new ACL(new ACL.mongodbBackend(mongoose.connection.db, 'acl_'));
+    setRoles(acl);
+
+    app.set('acl', acl);
+
+    // feed some dummy data in DB.
+    //dummyData();
+});
+
+
 
 
 
