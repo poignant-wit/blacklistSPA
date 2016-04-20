@@ -1,9 +1,10 @@
 import Post from '../models/post';
 import cuid from 'cuid';
 import slug from 'slug';
+
 import sanitizeHtml from 'sanitize-html';
 
-export function getPosts(req, res) {
+export function getPosts(req, res, next) {
 
 
   //Post.find().sort('-dateAdded').exec((err, posts) => {

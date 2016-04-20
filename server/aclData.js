@@ -3,6 +3,7 @@
  */
 
 export default (acl) => {
-    acl.allow('guest', 'posts', ['view', 'edit']);
-    acl.allow('admin', ['posts', 'users'], ['view', 'edit', 'delete']);
+    acl.allow('candidate', 'homepage', ['view']);
+    acl.allow('recruiter', 'comments', ['view']);
+    acl.allow('admin', ['comments', 'users'], ['view', 'edit', 'delete']);
 }
