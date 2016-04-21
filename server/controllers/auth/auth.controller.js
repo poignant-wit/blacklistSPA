@@ -55,11 +55,6 @@ export function signup(req, res, next) {
                 return next(err)
             }
 
-
-            //req.app.get('acl').addUserRoles(user.id, 'admin');
-
-
-
             /*in callback generate verification token */
             user.generateConfirmToken(function (err, token) {
 
@@ -72,7 +67,7 @@ export function signup(req, res, next) {
                 let baseURL = req.get('host');
                 let mailOptions = {
                     from: '"Test Mailer" <silaprod@gmail.com>', // sender address
-                    to: 'anatoliymandrichenko@gmail.com', // list of receivers
+                    to: email, // list of receivers
                     subject: 'HI', // Subject line
                     html: `<a href="${baseURL}/api/confirm/${token}"><h5>CONFIRM!</h5></a>`
                 };
@@ -92,9 +87,6 @@ export function signup(req, res, next) {
                 })
             });
         });
-
-        //res.json({token: tokenForUser(user)});
-
     });
 
 }
@@ -111,22 +103,18 @@ export function confirm(req, res, next) {
         });
 
         if (user){
-
-            user.confirmed = true;
-            user.save((err)=> {
+            User.update({_id: user._id}, {confirmed: true}, {multi: false}, (err) => {
 
                 /*
-                add role to user
-                * */
+                 add role to user
+                 * */
                 req.app.get('acl').addUserRoles(user.id, 'candidate');
-
                 return res.json({
                     success: true,
+                    token: tokenForUser(user),
                     info: `Email ${user.email} has been confirmed`
                 });
-
             });
-
         }else{
             return res.json({
                 success: false,
@@ -134,13 +122,11 @@ export function confirm(req, res, next) {
             });
         }
     })
-
 }
 
 
-
+/*=========================SIGNIN METHOD===================*/
 export function signin(req, res, next) {
-
 
     res.json({
         success: true,

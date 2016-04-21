@@ -1,14 +1,12 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt-nodejs';
-
-
 const Schema = mongoose.Schema;
 
 
-/*user collection schema*/
+/*comment collection schema*/
 const commentSchema = new Schema({
-    _author_id:  {type: Schema.ObjectId, required:true, ref: 'User'},
-    _target_id: {type: Schema.ObjectId, required:true, ref: 'User'},
+    //_author_id:  {type: Schema.ObjectId, required:true },  //todo edit schema
+    _author_id:  {type: String, required:true },
+    //_target_id: {type: Schema.ObjectId, required:true },
     body: { type: 'String' },
     dateAdded: { type: 'Date', default: Date.now, required: true },
     confirmed: { type: 'Boolean', default: false },

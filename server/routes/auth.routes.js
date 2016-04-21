@@ -18,6 +18,7 @@ router.route('/signup').post(AuthController.signup);
 * */
 router.route('/signin').post(isSignIn, AuthController.signin);
 
+
 /*confirm user
 * */
 router.route('/confirm/:code').get(AuthController.confirm);

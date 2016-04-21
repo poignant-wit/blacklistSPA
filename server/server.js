@@ -38,6 +38,7 @@ import { fetchComponentData } from './util/fetchData';
 import posts from './routes/post.routes';
 import users from './routes/user.routes';
 import auth from './routes/auth.routes';
+import indexRoutes from './routes/index.routes';
 import dummyData from './dummyData';
 
 
@@ -58,7 +59,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
     app.set('acl', acl);
 
     // feed some dummy data in DB.
-    //dummyData();
+    dummyData();
 });
 
 
@@ -75,6 +76,7 @@ app.use(Express.static(path.resolve(__dirname, '../static')));
 app.use('/api', posts);
 app.use('/api', users);
 app.use('/api', auth);
+app.use('/api', indexRoutes);
 
 // Render Initial HTML
 const renderFullPage = (html, initialState) => {

@@ -8,10 +8,10 @@ class IndexContainer extends Component{
     render(){
         return(
                 <div>
-                    <Header/>
+
 
 <h2>HELLO WORLS</h2>
-                    <Footer/>
+
                 </div>
 
             )

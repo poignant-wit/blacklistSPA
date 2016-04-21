@@ -7,14 +7,14 @@ const Schema = mongoose.Schema;
 
 /*user collection schema*/
 const userSchema = new Schema({
-    name: { type: 'String', required: true },
-    email: { type: 'String', required: true, unique: true, lowercase:true },
-    password: { type: 'String' },
-    dateAdded: { type: 'Date', default: Date.now, required: true },
-    confirmed: { type: 'Boolean', default: false },
+    name: {type: 'String', required: true},
+    email: {type: 'String', required: true, unique: true, lowercase: true},
+    password: {type: 'String'},
+    dateAdded: {type: 'Date', default: Date.now, required: true},
+    confirmed: {type: 'Boolean', default: false},
 
-    social:{
-        linkedin:{
+    social: {
+        linkedin: {
             id: String
         }
     }
@@ -23,7 +23,7 @@ const userSchema = new Schema({
 
 /*verification tokens schema*/
 const verificationTokenSchema = new Schema({
-    _userId: {type: Schema.ObjectId, required:true, ref: 'User'},
+    _userId: {type: Schema.ObjectId, required: true, ref: 'User'},
     token: {type: String, required: true},
     createdAt: {type: Date, required: true, default: Date.now, expires: '4h'}
 });
@@ -32,27 +32,40 @@ const VerificationToken = mongoose.model('VerificationToken', verificationTokenS
 
 
 /*action for encrypt password*/
-userSchema.pre('save', function(next){
+userSchema.pre('save', function (next) {
     const user = this;
 
-    bcrypt.genSalt(10, function(err, salt){
-        if (err){ return next(err); }
+    bcrypt.genSalt(10, function (err, salt) {
+        if (err) {
+            return next(err);
+        }
 
-        bcrypt.hash(user.password, salt, null, function (err, hash){
-            if (err){ return next(err); }
+        bcrypt.hash(user.password, salt, null, function (err, hash) {
+            if (err) {
+                return next(err);
+            }
             user.password = hash;
+
             next();
         })
     })
 });
 
 /*action for compare request password with stored one*/
-userSchema.methods.comparePassword = function(candidatePassword, callback){
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch){
+userSchema.methods.comparePassword = function (candidatePassword, callback) {
 
-        if(err){ return callback(err); }
+
+        bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+        if (err) {
+            return callback(err);
+        }
+
         callback(null, isMatch);
-        });
+
+
+
+
+    });
 };
 
 /*method for generate temporary user verification token and put it into verificationTokens collection*/
@@ -73,79 +86,30 @@ userSchema.methods.generateConfirmToken = function (callback) {
         });
 
 
-
-        verificationToken.save(function(err, token){
+        verificationToken.save(function (err, token) {
             if (err) return callback(err);
             return callback(null, token.token);
         });
-
-
     });
-
-
-
-
 };
-
 
 
 userSchema.statics.findByConfirmationCode = (candidateToken, callback) => {
 
     //let VerificationToken = mongoose.model('VerificationToken');
-    VerificationToken.findOne({token: candidateToken}, function(err, user){
+    VerificationToken.findOne({token: candidateToken}, function (err, user) {
 
         if (err) return callback(err);
 
         let User = mongoose.model('User');
-        User.findOne({_id: user._userId}, function(err, user){
+        User.findOne({_id: user._userId}, function (err, user) {
             if (err) return callback(err);
             return callback(null, user);
         });
 
 
-
-
-
-
     });
 
-
-
-
-    //let result = User.findOne({_id: verificationToken._userId});
-
-
-    //if (verificationToken){
-    //    return callback(true);
-    //}
-    //
-    //
-    //
-    //return callback(false);
-
-    //
-    //if (verificationToken){
-    //
-    //    return '1';
-    //
-    //}
-    //
-    //return '2';
-
-
-
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 export default mongoose.model('User', userSchema);
