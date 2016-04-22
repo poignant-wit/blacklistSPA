@@ -1,15 +1,25 @@
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
 import Header from '../../components/Header/Header.jsx'
 import Footer from '../../components/Footer/Footer.jsx'
 import SearchBar from '../../components/SearchBar/SearchBar.jsx'
+import SearchResult from '../../components/SearchResult/SearchResult.jsx'
+import { testAction } from '../../redux/actions/index'
+import { bindActionCreators } from 'redux'
 
 class IndexContainer extends Component{
+
+    constructor(props){
+        super(props);
+    }
 
 
     render(){
         return(
                 <div>
-                    <SearchBar onSubmit={text => console.log(text)}/>
+                    <SearchBar onSubmit={(text) => this.props.testing(text)}/>
+                    <SearchResult results={this.props.test}/>
+
                 </div>
 
             )
@@ -18,6 +28,22 @@ class IndexContainer extends Component{
 
 }
 
+function mapStateToProps(state){
+    return {
+        test: state.tests
+    };
+}
 
-export default IndexContainer;
+function mapDispatchToProps(dispatch){
+    return bindActionCreators(
+        {
+            testing: testAction
+        },
+        dispatch
+    )
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(IndexContainer);
 

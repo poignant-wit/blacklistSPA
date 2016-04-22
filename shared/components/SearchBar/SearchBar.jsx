@@ -15,7 +15,7 @@ class SearchBar extends Component {
             <form onSubmit={event => this._onSubmit(event)}>
                 <input type="text" onChange={event => this.setState({term: event.target.value})}/>
                 <span>
-                    <button type="submit">Press</button>
+                    <button type="submit">Press me</button>
                 </span>
             </form>
         )
