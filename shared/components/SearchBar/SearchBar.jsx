@@ -23,7 +23,7 @@ class SearchBar extends Component {
 
     _onSubmit(event) {
         event.preventDefault();
-        this.props.onSubmit(this.state.term)
+        this.props.onSubmit(this.state.value)
     }
 
 }
