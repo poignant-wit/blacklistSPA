@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+
+import signInUser from '../../redux/actions/auth';
 import SignInForm from '../../components/SignInForm/SignInForm.jsx'
 
 import { reduxForm } from 'redux-form';
@@ -20,14 +22,13 @@ export default class SignInPage extends Component{
         console.log(email);
         return(
             <div>
-                <form onSubmit={ handleSubmit }>
-                    <InputField />
+                <form onSubmit={ handleSubmit(this.props.signInUser) }>
+                    <input type="text" {...email}/>
                     <br/>
-                    <InputField/>
+                    <input type="text" {...email}/>
                     <br/>
-                    <InputField/>
-                    <br/>
-                    <button type="submit">BUTTON</button>
+                    <button type="submit">SIGNIN</button>
+
 
                 </form>
             </div>
@@ -41,7 +42,7 @@ export default class SignInPage extends Component{
 export default reduxForm({
     form: 'SignInForm',
     fields: ['email', 'password']
-})(SignInPage)
+}, null, { signInUser })(SignInPage)
 
 
 

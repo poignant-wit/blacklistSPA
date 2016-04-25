@@ -1,3 +1,10 @@
+export const SIGNIN_REQUEST = 'SIGNIN_REQUEST';
+export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
+export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';
+
+
+
+
 export const ADD_POST = 'ADD_POST';
 export const CHANGE_SELECTED_POST = 'CHANGE_SELECTED_POST';
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
