@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 
 /*user collection schema*/
 const userSchema = new Schema({
-    name: {type: 'String', required: true},
+    name: {type: 'String'},
     email: {type: 'String', required: true, unique: true, lowercase: true},
     password: {type: 'String'},
     dateAdded: {type: 'Date', default: Date.now, required: true},

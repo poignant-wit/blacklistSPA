@@ -7,7 +7,7 @@ import SearchResult from '../../components/SearchResult/SearchResult.jsx'
 
 import { bindActionCreators } from 'redux'
 
-class IndexContainer extends Component{
+class InfoPage extends Component{
 
     constructor(props){
         super(props);
@@ -16,13 +16,13 @@ class IndexContainer extends Component{
 
     render(){
         return(
-                <div>
-                    <SearchBar onSubmit={(text) => this.props.testing(text)}/>
-                    <SearchResult results={this.props.test}/>
+            <div>
 
-                </div>
+                <h2>INFO</h2>
 
-            )
+            </div>
+
+        )
     }
 
 
@@ -45,5 +45,5 @@ function mapDispatchToProps(dispatch){
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(IndexContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(InfoPage);
 

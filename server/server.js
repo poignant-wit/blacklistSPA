@@ -35,9 +35,6 @@ import { match, RouterContext } from 'react-router';
 // Import required modules
 import routes from '../shared/routes';
 import { fetchComponentData } from './util/fetchData';
-import posts from './routes/post.routes';
-import users from './routes/user.routes';
-import auth from './routes/auth.routes';
 import indexRoutes from './routes/index.routes';
 import dummyData from './dummyData';
 
@@ -49,10 +46,10 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
         console.error('Please make sure Mongodb is installed and running!'); // eslint-disable-line no-console
         throw error;
     }
+
     /*
      setup node acl
      * */
-
     const acl = new ACL(new ACL.mongodbBackend(mongoose.connection.db, 'acl_'));
     setRoles(acl);
 
@@ -73,9 +70,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 app.use(bodyParser.json({limit: '20mb'}));
 app.use(bodyParser.urlencoded({limit: '20mb', extended: false}));
 app.use(Express.static(path.resolve(__dirname, '../static')));
-app.use('/api', posts);
-app.use('/api', users);
-app.use('/api', auth);
+
 app.use('/api', indexRoutes);
 
 // Render Initial HTML
@@ -128,12 +123,11 @@ app.use((req, res, next) => {
             return next();
         }
 
-        const initialState = {tests: []};
+        const initialState = {};
 
 
 
         const store = configureStore(initialState);
-
         return fetchComponentData(store, renderProps.components, renderProps.params)
             .then(() => {
                 const initialView = renderToString(
@@ -142,7 +136,6 @@ app.use((req, res, next) => {
                     </Provider>
                 );
                 const finalState = store.getState();
-
                 res.status(200).end(renderFullPage(initialView, finalState));
             });
     });

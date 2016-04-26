@@ -10,6 +10,11 @@ const isAuth = passport.authenticate('jwt', { session: false });
 const isSignIn = passport.authenticate('local', { session: false });
 const isLinkedinUser = passport.authenticate('linkedin');
 
+
+
+export default (router) => {
+
+
 /*sign up user
 * */
 router.route('/signup').post(AuthController.signup);
@@ -32,6 +37,4 @@ router.route('/auth/linkedin').get(isLinkedinUser);
  * */
 router.route('/auth/linkedin/callback').get(isLinkedinUser, AuthController.signin );
 
-
-
-export default router;
+}
